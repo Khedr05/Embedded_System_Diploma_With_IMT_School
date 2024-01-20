@@ -1,0 +1,164 @@
+/*************************************************************************//*
+ Author        				: Sherif Ashraf Ali                      
+ Date         				: 10 Mar 2023                                
+ Project Name _ File Name   : TIMERS _ TIMERS_Prog.c           
+ Version       				: V-01                                   
+ GitHub       				: https://github.com/sherifkhadr         
+*//*************************************************************************/
+
+#include"TIMERS_Interface.h"
+
+
+void TIMER0_vInit()
+{
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_WGM00_BIT);
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_WGM00_BIT);
+	SET_BIT(TCCR0_REG,TCCR0_REG_CS00_BIT);
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_CS01_BIT);
+	SET_BIT(TCCR0_REG,TCCR0_REG_CS02_BIT);
+	TCNT0_REG = 247;
+	SET_BIT(TIMSK_REG,TIMSK_REG_TOIE0_BIT);
+
+}
+void TIMER0_vResetTcnt()
+{
+	TCNT0_REG = 0;
+}
+void TIMER0_vSetTcnt(Uchar8_t Copy_Uchar8_tValue)
+{
+	TCNT0_REG = Copy_Uchar8_tValue;
+}
+void TIMER0_vDisable()
+{
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_CS00_BIT);
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_CS01_BIT);
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_CS02_BIT);
+}
+
+
+
+void TIMER0_CTC_vInit()
+{
+	SET_BIT(TCCR0_REG,TCCR0_REG_FOC0_BIT);
+	SET_BIT(TCCR0_REG,TCCR0_REG_CS00_BIT);
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_CS01_BIT);
+	SET_BIT(TCCR0_REG,TCCR0_REG_CS02_BIT);
+	OCR0_REG = 200;
+	SET_BIT(TIMSK_REG,TIMSK_REG_OCIE0_BIT);
+	CLEAR_BIT(TIMSK_REG,TIMSK_REG_TOIE0_BIT);
+}
+
+void TIMER1_vPwmInit()
+{
+	// adjust pwm inverting
+
+	SET_BIT(TCCR1A_REG,TCCR1A_REG_COM1A1_BIT);
+	SET_BIT(TCCR1A_REG,TCCR1A_REG_COM1B1_BIT);
+	CLEAR_BIT(TCCR1A_REG,TCCR1A_REG_COM1A0_BIT);
+	CLEAR_BIT(TCCR1A_REG,TCCR1A_REG_COM1B0_BIT);
+
+
+	// operate with mode 14 (fast pwm -> ICR1)
+
+	CLEAR_BIT(TCCR1A_REG,TCCR1A_REG_WGM10_BIT);
+	SET_BIT(TCCR1A_REG,TCCR1A_REG_WGM11_BIT);
+	SET_BIT(TCCR1B_REG,TCCR1B_REG_WGM12_BIT);
+	SET_BIT(TCCR1B_REG,TCCR1B_REG_WGM13_BIT);
+
+
+	TCNT1L_REG = 0;
+
+	// set icr1 value
+
+	ICR1L_REG = 2499;
+
+	// set ocr1a value
+
+	OCR1AL_REG = 125;
+
+	// choose prescaler 64
+	SET_BIT(TCCR1B_REG,TCCR1B_REG_CS10_BIT);
+	SET_BIT(TCCR1B_REG,TCCR1B_REG_CS11_BIT);
+	CLEAR_BIT(TCCR1B_REG,TCCR1B_REG_CS12_BIT);
+}
+
+void TIMER1_vSetOcr1Value(Uchar8_t comparevalue)
+{
+	// ocr1a = comparevalue
+
+	OCR1AL_REG = comparevalue;
+}
+
+void TIMER1_vIcuInit()
+{
+
+	CLEAR_BIT(TCCR1A_REG,TCCR1A_REG_WGM10_BIT);
+	CLEAR_BIT(TCCR1A_REG,TCCR1A_REG_WGM11_BIT);
+	CLEAR_BIT(TCCR1B_REG,TCCR1B_REG_WGM12_BIT);
+	CLEAR_BIT(TCCR1B_REG,TCCR1B_REG_WGM13_BIT);
+
+	SET_BIT(TCCR1B_REG,TCCR1B_REG_ICES1_BIT);
+
+	TCNT1L_REG = 0;
+
+	ICR1L_REG = 0;
+
+	SET_BIT(TCCR1B_REG,TCCR1B_REG_CS10_BIT);
+	CLEAR_BIT(TCCR1B_REG,TCCR1B_REG_CS11_BIT);
+	CLEAR_BIT(TCCR1B_REG,TCCR1B_REG_CS12_BIT);
+
+	SET_BIT(TIMSK_REG,TIMSK_REG_TICIE1_BIT);
+}
+
+
+void TIMER1_vChangeIcuMode(Uchar8_t mode)
+{
+	switch(mode)
+	{
+		case RISAING : 	SET_BIT(TCCR1B_REG,TCCR1B_REG_ICES1_BIT); break;
+		case FALLING : 	CLEAR_BIT(TCCR1B_REG,TCCR1B_REG_ICES1_BIT); break;
+	}
+}
+
+void TIMER1_vResetTCNT1(void)
+{
+	TCNT1L_REG = 0;
+}
+
+void TIMER1_vICUDisable(void)
+{
+	CLEAR_BIT(TCCR1B_REG,TCCR1B_REG_CS10_BIT);
+	CLEAR_BIT(TCCR1B_REG,TCCR1B_REG_CS11_BIT);
+	CLEAR_BIT(TCCR1B_REG,TCCR1B_REG_CS12_BIT);
+
+}
+
+void TIMER0_vPwdInit()
+{
+	SET_BIT(TCCR0_REG,TCCR0_REG_WGM00_BIT);
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_WGM01_BIT);
+
+	SET_BIT(TCCR0_REG,TCCR0_REG_COM01_BIT);
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_COM00_BIT);
+
+
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_CS00_BIT);
+	SET_BIT(TCCR0_REG,TCCR0_REG_CS01_BIT);
+	CLEAR_BIT(TCCR0_REG,TCCR0_REG_CS02_BIT);
+
+	OCR0_REG = 128;
+}
+
+
+
+
+void setcallback(void(*ptrfunc)())
+{
+	global_ptr_func = ptrfunc;
+}
+
+void __vector_10(void)
+{
+	(*global_ptr_func)();
+}
+

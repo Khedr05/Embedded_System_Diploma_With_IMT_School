@@ -1,0 +1,22 @@
+EHAL/7SEGMENT/7SEGMENT_Prog.o EHAL/7SEGMENT/7SEGMENT_Prog.o:  \
+ ../EHAL/7SEGMENT/7SEGMENT_Prog.c ../EHAL/7SEGMENT/7SEGMENT_Interface.h \
+  ../EHAL/7SEGMENT/7SEGMENT_Config.h \
+  ../EHAL/7SEGMENT/../../SERVIES/STD_Types.h \
+  ../EHAL/7SEGMENT/../../MCAL/DIO/DIO_Interface.h \
+  ../EHAL/7SEGMENT/../../MCAL/DIO/../../SERVIES/BIT_Math.h \
+  ../EHAL/7SEGMENT/../../MCAL/DIO/../../SERVIES/STD_Types.h \
+  ../EHAL/7SEGMENT/../../MCAL/DIO/../DIO/DIO_Private.h
+
+../EHAL/7SEGMENT/7SEGMENT_Interface.h:
+
+../EHAL/7SEGMENT/7SEGMENT_Config.h:
+
+../EHAL/7SEGMENT/../../SERVIES/STD_Types.h:
+
+../EHAL/7SEGMENT/../../MCAL/DIO/DIO_Interface.h:
+
+../EHAL/7SEGMENT/../../MCAL/DIO/../../SERVIES/BIT_Math.h:
+
+../EHAL/7SEGMENT/../../MCAL/DIO/../../SERVIES/STD_Types.h:
+
+../EHAL/7SEGMENT/../../MCAL/DIO/../DIO/DIO_Private.h:
